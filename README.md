@@ -3,9 +3,7 @@
 [LaTeX Workshop]: https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop
 [Remote - Containers]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
 
-# miami-university-cse-667-group-project
-
-Paper: <https://proxy.lib.miamioh.edu/login?url=https://link.springer.com/article/10.1007/s10623-020-00741-y>
+# miami-university-cse-620a-group-project
 
 Distribution of work:
 
