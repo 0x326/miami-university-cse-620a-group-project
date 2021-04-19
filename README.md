@@ -40,3 +40,9 @@ make
 # On commandline
 docker run --rm -v "$(pwd):/pwd" --workdir /pwd blang/latex:ctanfull make
 ```
+
+Running clingo:
+
+```bash
+clingo *.lp *.py | sed 's/) /)\n/g'
+```
