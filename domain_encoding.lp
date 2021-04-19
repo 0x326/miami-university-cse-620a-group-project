@@ -1,18 +1,160 @@
+% Title: Blackjack Modeled in a Dynamic Domain
+%
+% Input predicates:
+%   - person(Person)
+%   - player(Player)
+%   - dealer(Dealer)
+%
+%   - obs(Fluent, 0)
+%   - -obs(Fluent, 0)
+%   - hpd(Action, Timestep)
+%
+% Output predicates:
+%   - holds(game_end(Player, Hand, Result), Timestep)
+%
+% KRR methodology:
+%   - dynamic domains
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % person(Person)
 % player(Player)
 % dealer(Dealer)
 
-% card_value(CardValue)
-% card_suit(CardSuit)
-% card((CardSuit, CardValue))
+% suit(Suit)
+% rank(Rank)
+% card(Card)
 
-card((CardSuit, CardValue)) :-
-    card_suit(CardSuit),
-    card_value(CardValue).
+% card_rank(Card, CardRank)
+% card_suit(Card, CardSuit)
+% card_value(Card, CardValue)
+
+suit(Suit) :-
+    Suit = (
+        spades;
+        hearts;
+        diamonds;
+        clubs
+    ).
+
+rank(Rank) :-
+    Rank = (
+        ace;
+        two;
+        three;
+        four;
+        five;
+        six;
+        seven;
+        eight;
+        nine;
+        ten;
+        jack;
+        queen;
+        king
+    ).
+
+card(Card) :-
+    suit(CardSuit),
+    rank(CardRank),
+    Card = @str_format("{} of {}", CardRank, CardSuit).
+
+card_suit(Card, CardSuit) :-
+    suit(CardSuit),
+    rank(CardRank),
+    Card = @str_format("{} of {}", CardRank, CardSuit).
+
+card_rank(Card, CardRank) :-
+    suit(CardSuit),
+    rank(CardRank),
+    Card = @str_format("{} of {}", CardRank, CardSuit).
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = ace,
+    CardValue = (1; 11).
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = two,
+    CardValue = 2.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = three,
+    CardValue = 3.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = four,
+    CardValue = 4.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = five,
+    CardValue = 5.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = six,
+    CardValue = 6.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = seven,
+    CardValue = 7.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = eight,
+    CardValue = 8.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = nine,
+    CardValue = 9.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = ten,
+    CardValue = 10.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = jack,
+    CardValue = 10.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = queen,
+    CardValue = 10.
+
+card_value(Card, CardValue) :-
+    suit(CardSuit),
+    Card = @str_format("{} of {}", CardRank, CardSuit),
+    CardRank = king,
+    CardValue = 10.
 
 hand(1; 2).
+
+game_result(Result) :-
+    Result = (
+        win;
+        loss;
+        push  % "tie"
+    ).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -22,7 +164,7 @@ person(Person) :-
         "Bob"
     ).
 
-dealer(Delar)
+% dealer(Dealer)
 
 agent(Person) :-
     person(Person),
@@ -34,32 +176,10 @@ fluent(inertial, deck_card(Card, Position)) :-
     card(Card),
     position(Position).
 
-fluent(inertial, card_in_hand(Player, Hand, Card)) :-
-    player(Player),
-    hand(Hand),
-    card(Card).
-
-fluent(defined, hand_score(Person, Hand, Score)) :-
+fluent(inertial, card_in_hand(Person, Hand, Card)) :-
     person(Person),
     hand(Hand),
-    MaxScore = #sum{ CardValue, CardSuit :
-        card_suit(CardSuit),
-        card_value(CardValue)
-    },
-    Score = 0..MaxScore.
-
-fluent(defined, bust(Player, Hand)) :-
-    player(Player),
-    hand(Hand).
-
-fluent(defined, game_end(Player, Hand, Result)) :-
-    player(Player),
-    hand(Hand),
-    Result = (
-        win;
-        loss;
-        push  % "tie"
-    ).
+    card(Card).
 
 fluent(inertial, chip_count(Player, ChipCount)) :-
     player(Player),
@@ -78,6 +198,30 @@ fluent(inertial, have_split(Player)) :-
 fluent(inertial, have_double_downed(Player, Hand)) :-
     player(Player),
     hand(Hand).
+
+% ---------------------------------------------------------
+
+fluent(defined, hand_score(Person, Hand, Score)) :-
+    person(Person),
+    hand(Hand),
+    MaxScore = #sum{ CardValue, CardSuit :
+        card_suit(CardSuit),
+        card_value(CardValue)
+    },
+    Score = 0..MaxScore.
+
+fluent(defined, bust(Person, Hand)) :-
+    person(Person),
+    hand(Hand).
+
+fluent(defined, black_jack(Person, Hand)) :-
+    person(Person),
+    hand(Hand).
+
+fluent(defined, game_end(Player, Hand, Result)) :-
+    player(Player),
+    hand(Hand),
+    game_result(Result).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -113,26 +257,49 @@ action(deal_card(Actor, Actor, Hand)) :-
 % -deck_card(Card, OtherPosition) if
 %   deck_card(Card, Position),
 %   OtherPosition != Position
+-holds(deck_card(Card, OtherPosition), Timestep) :-
+    step(Timestep),
+    holds(deck_card(Card, Position), Timestep),
+    position(OtherPosition),
+    OtherPosition != Position.
 
-% -card_in_hand(Player, OtherHand, Card) if
-%   card_in_hand(Player, Hand, Card),
+% ---------------------------------------------------------
+
+% -card_in_hand(Person, OtherHand, Card) if
+%   card_in_hand(Person, Hand, Card),
 %   OtherHand != Hand
+-holds(card_in_hand(Person, OtherHand, Card), Timestep) :-
+    step(Timestep),
+    holds(card_in_hand(Person, Hand, Card), Timestep),
+    hand(OtherHand),
+    OtherHand != Hand.
 
-% -card_in_hand(OtherPlayer, OtherHand, Card) if
-%   card_in_hand(Player, Hand, Card),
-%   OtherPlayer != Player
+% -card_in_hand(OtherPerson, OtherHand, Card) if
+%   card_in_hand(Person, Hand, Card),
+%   OtherPerson != Person
+-holds(card_in_hand(OtherPerson, OtherHand, Card), Timestep) :-
+    step(Timestep),
+    holds(card_in_hand(Person, Hand, Card), Timestep),
+    player(OtherPerson),
+    hand(OtherHand),
+    OtherPerson != Person.
+
+% ---------------------------------------------------------
 
 % (AL-like rule)
 %
-% hand_score(Player, Hand, Score) if
-%   #sum{ card_in_hand(Player, Hand, Card) }
+% hand_score(Person, Hand, Score) if
+%   #sum{ card_in_hand(Person, Hand, Card) }
 holds(hand_score(Person, Hand, Score), Timestep) :-
     step(Timestep),
     person(Person),
     hand(Hand),
-    Score = #sum{ CardValue, CardSuit :
-        holds(card_in_hand(Person, Hand, (CardSuit, CardValue)), Timestep)
+    Score = #sum{ CardValue, Card :
+        holds(card_in_hand(Person, Hand, Card), Timestep),
+        card_value(CardValue)
     }.
+
+% ---------------------------------------------------------
 
 % bust(Person, Hand) if
 %   hand_score(Person, Hand, Score),
@@ -144,12 +311,100 @@ holds(bust(Person, Hand), Timestep) :-
     holds(hand_score(Person, Hand, Score), Timestep),
     Score > 21.
 
-% game_end(Player, Hand, win) if
-%   bust(Dealer, DealerHand),
-%   -bust(Player, Hand)
+% ---------------------------------------------------------
+
+% black_jack(Person, Hand) if
+%   card_in_hand(Person, Hand, Ace)
+%   card_in_hand(Person, Hand, Card)
+%   card_rank(Ace, AceRank)
+%   card_value(Card, CardValue)
+%   AceRank = ace
+%   CardValue = 10
+holds(black_jack(Person, Hand), Timestep) :-
+    step(Timestep),
+    holds(card_in_hand(Person, Hand, Ace), Timestep),
+    holds(card_in_hand(Person, Hand, Card), Timestep),
+    card_rank(Ace, AceRank),
+    card_value(Card, CardValue),
+    AceRank = ace,
+    CardValue = 10.
+
+% ---------------------------------------------------------
+
+% -game_end(Player, Hand, OtherResult) if
+%   game_end(Player, Hand, Result)
+%   OtherResult != Result
+-holds(game_end(Player, Hand, OtherResult), Timestep) :-
+    step(Timestep),
+    holds(game_end(Player, Hand, Result), Timestep),
+    game_result(OtherResult),
+    OtherResult != Result.
+
+% ---------------------------------------------------------
+
+% game_end(Player, Hand, lose) if
+%   bust(Player, Hand)
+holds(game_end(Player, Hand, lose), Timestep) :-
+    step(Timestep),
+    holds(bust(Player, Hand), Timestep).
+
+% game_end(Player, PlayerHand, lose) if
+%   hand_score(Player, PlayerHand, PlayerScore)
+%   hand_score(Dealer, DealerHand, DealerScore)
+%   dealer(Dealer)
+%   PlayerScore < DealerScore
+holds(game_end(Player, PlayerHand, lose), Timestep) :-
+    step(Timestep),
+    holds(hand_score(Player, PlayerHand, PlayerScore), Timestep),
+    holds(hand_score(Dealer, DealerHand, DealerScore), Timestep),
+    player(Player),
+    dealer(Dealer),
+    PlayerScore < DealerScore.
+
+% ---------------------------------------------------------
+
+% game_end(Player, PlayerHand, push) if
+%   hand_score(Player, PlayerHand, PlayerScore)
+%   hand_score(Dealer, DealerHand, DealerScore)
+%   dealer(Dealer)
+%   PlayerScore = DealerScore
+holds(game_end(Player, PlayerHand, push), Timestep) :-
+    step(Timestep),
+    holds(hand_score(Player, PlayerHand, PlayerScore), Timestep),
+    holds(hand_score(Dealer, DealerHand, DealerScore), Timestep),
+    player(Player),
+    dealer(Dealer),
+    PlayerScore = DealerScore.
+
+% -game_end(Player, PlayerHand, push) if
+%   hand_score(Player, PlayerHand, PlayerScore)
+%   hand_score(Dealer, DealerHand, DealerScore)
+%   dealer(Dealer)
+%   PlayerScore != DealerScore
+-holds(game_end(Player, PlayerHand, push), Timestep) :-
+    step(Timestep),
+    holds(hand_score(Player, PlayerHand, PlayerScore), Timestep),
+    holds(hand_score(Dealer, DealerHand, DealerScore), Timestep),
+    player(Player),
+    dealer(Dealer),
+    PlayerScore != DealerScore.
+
+% ---------------------------------------------------------
+
+% game_end(Player, PlayerHand, win) if
+%   black_jack(Player, PlayerHand)
+%   -black_jack(Dealer, DealerHand)
+holds(game_end(Player, PlayerHand, win), Timestep) :-
+    step(Timestep),
+    holds(black_jack(Player, PlayerHand), Timestep),
+    -holds(black_jack(Dealer, DealerHand), Timestep).
 
 % game_end(Player, Hand, win) if
-%   -bst
-%   hand_score(Player, Hand, Score)
 %   bust(Dealer, DealerHand),
 %   -bust(Player, Hand)
+holds(game_end(Player, Hand, win), Timestep) :-
+    step(Timestep),
+    holds(bust(Dealer, DealerHand), Timestep),
+    -holds(bust(Player, Hand), Timestep).
+
+% ---------------------------------------------------------
