@@ -255,6 +255,9 @@ action(double_down(Actor, Hand)) :-
     player(Actor),
     hand(Hand).
 
+action(end_game(Actor)) :-
+    player(Actor).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % -deck_card(Card, OtherPosition) if
