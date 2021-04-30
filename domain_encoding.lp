@@ -69,11 +69,11 @@ card_rank(Card, CardRank) :-
     rank(CardRank),
     Card = @str_format("{} of {}", CardRank, CardSuit).
 
-card_value(Card, CardValue) :-
+1 { card_value(Card, CardValue) :
+        CardValue = (1; 11) } 1 :-
     suit(CardSuit),
     Card = @str_format("{} of {}", CardRank, CardSuit),
-    CardRank = ace,
-    CardValue = (1; 11).
+    CardRank = ace.
 
 card_value(Card, CardValue) :-
     suit(CardSuit),
