@@ -193,7 +193,9 @@ fluent(inertial, current_bet(Player, Hand, ChipCount)) :-
     ChipCount = 0..MaxChipCount.
 
 fluent(inertial, split_count(Player, SplitCount)) :-
-    player(Player).
+    player(Player),
+    MaxSplitCount = 3,
+    SplitCount = 0..MaxSplitCount.
 
 fluent(inertial, have_doubled_down(Player, Hand)) :-
     player(Player),
@@ -253,7 +255,7 @@ action(stand(Actor, Hand)) :-
     hand(Hand).
 
 action(split(Actor, Hand)) :-
-    player(Actor)
+    player(Actor),
     hand(Hand).
 
 action(double_down(Actor, Hand)) :-
@@ -426,6 +428,8 @@ holds(game_end(Player, Hand, win), Timestep) :-
 -holds(chip_count(Player, OtherChipCount), Timestep) :-
     step(Timestep),
     holds(chip_count(Player, ChipCount), Timestep),
+    max_chip_count(MaxChipCount),
+    OtherChipCount = 0..MaxChipCount,
     OtherChipCount != ChipCount.
 
 % ---------------------------------------------------------
@@ -436,6 +440,8 @@ holds(game_end(Player, Hand, win), Timestep) :-
 -holds(current_bet(Player, Hand, OtherChipCount), Timestep) :-
     step(Timestep),
     holds(current_bet(Player, Hand, ChipCount), Timestep),
+    max_chip_count(MaxChipCount),
+    OtherChipCount = 0..MaxChipCount,
     OtherChipCount != ChipCount.
 
 % ---------------------------------------------------------
@@ -481,6 +487,8 @@ holds(chip_count(Actor, NewChipCount), Timestep + 1) :-
 %   ChipCount > AvailableChipCount
 -occurs(place_bet(Actor, ChipCount), Timestep) :-
     holds(chip_count(Actor, AvailableChipCount), Timestep),
+    max_chip_count(MaxChipCount),
+    ChipCount = 0..MaxChipCount,
     ChipCount > AvailableChipCount.
 
 % ---------------------------------------------------------
