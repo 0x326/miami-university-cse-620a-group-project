@@ -192,7 +192,7 @@ fluent(inertial, current_bet(Player, Hand, ChipCount)) :-
     max_chip_count(MaxChipCount),
     ChipCount = 0..MaxChipCount.
 
-fluent(inertial, have_split(Player)) :-
+fluent(inertial, split_count(Player, SplitCount)) :-
     player(Player).
 
 fluent(inertial, have_doubled_down(Player, Hand)) :-
@@ -252,8 +252,9 @@ action(stand(Actor, Hand)) :-
     player(Actor),
     hand(Hand).
 
-action(split(Actor)) :-
-    player(Actor).
+action(split(Actor, Hand)) :-
+    player(Actor)
+    hand(Hand).
 
 action(double_down(Actor, Hand)) :-
     player(Actor),
@@ -521,17 +522,19 @@ holds(game_end(Player, Hand, win), Timestep) :-
 
 % ---------------------------------------------------------
 
-% split(Actor)
-% causes have_split(Actor)
+% split(Actor, Hand)
+% causes split_count(Actor, SplitCount + 1)
+% if
+%   split_count(Actor, SplitCount)
 
-% impossible split(Actor) if
+% impossible split(Actor, Hand) if
 %   card_in_hand(Actor, Hand, Card1)
 %   card_in_hand(Actor, Hand, Card2)
 %   card_in_hand(Actor, Hand, Card3)
 %   Card1 != Card2
 %   Card2 != Card3
 
-% impossible split(Actor) if
+% impossible split(Actor, Hand) if
 %   have_split(Actor, Hand)
 %   card_in_hand(Actor, Hand, Card1)
 %   card_in_hand(Actor, Hand, Card2)
@@ -540,35 +543,31 @@ holds(game_end(Player, Hand, win), Timestep) :-
 %   card_rank(Card2, Rank2)
 %   Rank1 != Rank2
 
-% impossible split(Actor) if
+% impossible split(Actor, Hand) if
 %   have_split(Actor, Hand)
 
-% split(Actor)
+% split(Actor, Hand)
 % causes current_bet(Actor, Hand, NewChipCount)
 % if
-%   Hand = 1
 %   current_bet(Actor, Hand, ChipCount)
 %   NewChipCount = (ChipCount / 2) + (ChipCount \ 2)
 
-% split(Actor)
+% split(Actor, Hand)
 % causes current_bet(Actor, Hand + 1, NewChipCount)
 % if
-%   Hand = 2
 %   current_bet(Actor, Hand, ChipCount)
 %   NewChipCount = ChipCount / 2
 
-% split(Actor)
+% split(Actor, Hand)
 % causes -card_in_hand(Person, Hand, Card2)
 % if
-%   Hand = 1
 %   card_in_hand(Person, Hand, Card1)
 %   card_in_hand(Person, Hand, Card2)
 %   Card1 < Card2
 
-% split(Actor)
+% split(Actor, Hand)
 % causes card_in_hand(Person, Hand + 1, Card2)
 % if
-%   Hand = 1
 %   card_in_hand(Person, Hand, Card1)
 %   card_in_hand(Person, Hand, Card2)
 %   Card1 < Card2
