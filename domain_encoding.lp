@@ -442,6 +442,10 @@ holds(game_end(Player, Hand, win), Timestep) :-
 
 % impossible Action1, Action2 if
 %   Action1 != Action2
+-occurs(OtherAction, Timestep) :-
+    occurs(Action, Timestep),
+    action(OtherAction),
+    OtherAction != Action.
 
 % ---------------------------------------------------------
 
@@ -449,20 +453,35 @@ holds(game_end(Player, Hand, win), Timestep) :-
 % causes current_bet(Actor, Hand, ChipCount)
 % if
 %   Hand = 1
+holds(current_bet(Actor, Hand, ChipCount), Timestep + 1) :-
+    step(Timestep),
+    occurs(place_bet(Actor, ChipCount), Timestep),
+    Hand = 1.
 
 % place_bet(Actor, ChipCount)
 % causes chip_count(Actor, NewChipCount)
 % if
 %   chip_count(Actor, OldChipCount)
 %   NewChipCount = OldChipCount - ChipCount
+holds(chip_count(Actor, NewChipCount), Timestep + 1) :-
+    step(Timestep),
+    occurs(place_bet(Actor, ChipCount), Timestep),
+    holds(chip_count(Actor, OldChipCount), Timestep),
+    NewChipCount = OldChipCount - ChipCount.
 
 % impossible place_bet(Actor, ChipCount) if
 %   current_bet(Actor, Hand, ChipCount)
 %   ChipCount > 0
+-occurs(place_bet(Actor, ChipCount), Timestep) :-
+    holds(current_bet(Actor, Hand, ChipCount), Timestep),
+    ChipCount > 0.
 
 % impossible place_bet(Actor, ChipCount) if
 %   chip_count(Actor, AvailableChipCount)
 %   ChipCount > AvailableChipCount
+-occurs(place_bet(Actor, ChipCount), Timestep) :-
+    holds(chip_count(Actor, AvailableChipCount), Timestep),
+    ChipCount > AvailableChipCount.
 
 % ---------------------------------------------------------
 
@@ -471,12 +490,20 @@ holds(game_end(Player, Hand, win), Timestep) :-
 % if
 %   deck_card(Card, Position)
 %   Position = 1
+holds(card_in_hand(Person, Hand, Card), Timestep + 1) :-
+    occurs(deal_card(Actor, Person, Hand), Timestep),
+    holds(deck_card(Card, Position), Timestep),
+    Position = 1.
 
 % deal_card(Actor, Person, Hand)
 % causes -deck_card(Card, Position)
 % if
 %   deck_card(Card, Position)
 %   Position = 1
+-holds(deck_card(Card, Position), Timestep + 1) :-
+    occurs(deal_card(Actor, Person, Hand), Timestep),
+    holds(deck_card(Card, Position), Timestep),
+    Position = 1.
 
 % deal_card(Actor, Person, Hand)
 % causes deck_card(Card, NewPosition)
@@ -484,6 +511,11 @@ holds(game_end(Player, Hand, win), Timestep) :-
 %   deck_card(Card, Position)
 %   Position > 1
 %   NewPosition = Position - 1
+holds(deck_card(Card, NewPosition), Timestep + 1) :-
+    occurs(deal_card(Actor, Person, Hand), Timestep),
+    holds(deck_card(Card, Position), Timestep),
+    Position > 1,
+    NewPosition = Position - 1.
 
 % ---------------------------------------------------------
 
@@ -492,12 +524,20 @@ holds(game_end(Player, Hand, win), Timestep) :-
 % if
 %   deck_card(Card, Position)
 %   Position = 1
+holds(card_in_hand(Actor, Hand, Card), Timestep + 1) :-
+    occurs(hit(Actor, Hand), Timestep),
+    holds(deck_card(Card, Position), Timestep),
+    Position = 1.
 
 % hit(Actor, Hand)
 % causes -deck_card(Card, Position)
 % if
 %   deck_card(Card, Position)
 %   Position = 1
+-holds(deck_card(Card, Position), Timestep + 1) :-
+    occurs(hit(Actor, Hand), Timestep),
+    holds(deck_card(Card, Position), Timestep),
+    Position = 1.
 
 % hit(Actor, Hand)
 % causes deck_card(Card, NewPosition)
@@ -505,20 +545,33 @@ holds(game_end(Player, Hand, win), Timestep) :-
 %   deck_card(Card, Position)
 %   Position > 1
 %   NewPosition = Position - 1
+holds(deck_card(Card, NewPosition), Timestep + 1) :-
+    occurs(hit(Actor, Hand), Timestep),
+    holds(deck_card(Card, Position), Timestep),
+    Position > 1,
+    NewPosition = Position - 1.
 
 % impossible hit(Actor, Hand) if
 %   have_stayed(Actor, Hand)
+-occurs(hit(Actor, Hand), Timestep) :-
+    occurs(have_stayed(Actor, Hand), Timestep).
 
 % impossible hit(Actor, Hand) if
 %   have_doubled_down(Actor, Hand)
+-occurs(hit(Actor, Hand), Timestep) :-
+    occurs(have_doubled_down(Actor, Hand), Timestep).
 
 % ---------------------------------------------------------
 
 % stand(Actor, Hand)
 % causes have_stayed(Actor, Hand)
+holds(have_stayed(Actor, Hand), Timestep + 1) :-
+    occurs(stand(Actor, Hand), Timestep).
 
 % impossible stand(Actor, Hand) if
 %   have_stayed(Actor, Hand)
+-occurs(stand(Actor, Hand), Timestep) :-
+    holds(have_stayed(Actor, Hand), Timestep).
 
 % ---------------------------------------------------------
 
@@ -526,6 +579,9 @@ holds(game_end(Player, Hand, win), Timestep) :-
 % causes split_count(Actor, SplitCount + 1)
 % if
 %   split_count(Actor, SplitCount)
+holds(split_count(Actor, SplitCount + 1), Timestep + 1) :-
+    occurs(split(Actor, Hand), Timestep),
+    holds(split_count(Actor, SplitCount), Timestep).
 
 % impossible split(Actor, Hand) if
 %   card_in_hand(Actor, Hand, Card1)
@@ -533,6 +589,12 @@ holds(game_end(Player, Hand, win), Timestep) :-
 %   card_in_hand(Actor, Hand, Card3)
 %   Card1 != Card2
 %   Card2 != Card3
+-occurs(split(Actor, Hand), Timestep) :-
+    holds(card_in_hand(Actor, Hand, Card1), Timestep),
+    holds(card_in_hand(Actor, Hand, Card2), Timestep),
+    holds(card_in_hand(Actor, Hand, Card3), Timestep),
+    Card1 != Card2,
+    Card2 != Card3.
 
 % impossible split(Actor, Hand) if
 %   have_split(Actor, Hand)
@@ -542,21 +604,39 @@ holds(game_end(Player, Hand, win), Timestep) :-
 %   card_rank(Card1, Rank1)
 %   card_rank(Card2, Rank2)
 %   Rank1 != Rank2
+-occurs(split(Actor, Hand), Timestep) :-
+    holds(have_split(Actor, Hand), Timestep),
+    holds(card_in_hand(Actor, Hand, Card1), Timestep),
+    holds(card_in_hand(Actor, Hand, Card2), Timestep),
+    Card1 != Card2,
+    card_rank(Card1, Rank1),
+    card_rank(Card2, Rank2),
+    Rank1 != Rank2.
 
 % impossible split(Actor, Hand) if
 %   have_split(Actor, Hand)
+-occurs(split(Actor, Hand), Timestep) :-
+    holds(have_split(Actor, Hand), Timestep).
 
 % split(Actor, Hand)
 % causes current_bet(Actor, Hand, NewChipCount)
 % if
 %   current_bet(Actor, Hand, ChipCount)
 %   NewChipCount = (ChipCount / 2) + (ChipCount \ 2)
+holds(current_bet(Actor, Hand, NewChipCount), Timestep + 1) :-
+    occurs(split(Actor, Hand), Timestep),
+    holds(current_bet(Actor, Hand, ChipCount), Timestep),
+    NewChipCount = (ChipCount / 2) + (ChipCount \ 2).
 
 % split(Actor, Hand)
 % causes current_bet(Actor, Hand + 1, NewChipCount)
 % if
 %   current_bet(Actor, Hand, ChipCount)
 %   NewChipCount = ChipCount / 2
+holds(current_bet(Actor, Hand + 1, NewChipCount), Timestep + 1) :-
+    occurs(split(Actor, Hand), Timestep),
+    holds(current_bet(Actor, Hand, ChipCount), Timestep),
+    NewChipCount = ChipCount / 2.
 
 % split(Actor, Hand)
 % causes -card_in_hand(Person, Hand, Card2)
@@ -564,6 +644,11 @@ holds(game_end(Player, Hand, win), Timestep) :-
 %   card_in_hand(Person, Hand, Card1)
 %   card_in_hand(Person, Hand, Card2)
 %   Card1 < Card2
+-holds(card_in_hand(Person, Hand, Card2), Timestep + 1) :-
+    occurs(split(Actor, Hand), Timestep),
+    holds(card_in_hand(Person, Hand, Card1), Timestep),
+    holds(card_in_hand(Person, Hand, Card2), Timestep),
+    Card1 < Card2.
 
 % split(Actor, Hand)
 % causes card_in_hand(Person, Hand + 1, Card2)
@@ -571,20 +656,33 @@ holds(game_end(Player, Hand, win), Timestep) :-
 %   card_in_hand(Person, Hand, Card1)
 %   card_in_hand(Person, Hand, Card2)
 %   Card1 < Card2
+holds(card_in_hand(Person, Hand + 1, Card2), Timestep + 1) :-
+    occurs(split(Actor, Hand), Timestep),
+    holds(card_in_hand(Person, Hand, Card1), Timestep),
+    holds(card_in_hand(Person, Hand, Card2), Timestep),
+    Card1 < Card2.
 
 % ---------------------------------------------------------
 
 % double_down(Actor, Hand)
 % causes have_doubled_down(Actor, Hand)
+holds(have_doubled_down(Actor, Hand), Timestep + 1) :-
+    occurs(double_down(Actor, Hand), Timestep).
 
 % impossible double_down(Actor, Hand) if
 %   have_doubled_down(Actor, Hand)
+-occurs(double_down(Actor, Hand), Timestep) :-
+    holds(have_doubled_down(Actor, Hand), Timestep).
 
 % double_down(Actor, Hand)
 % causes current_bet(Actor, Hand, NewChipCount)
 % if
 %   current_bet(Actor, Hand, ChipCount)
 %   NewChipCount = 2 * ChipCount
+holds(current_bet(Actor, Hand, NewChipCount), Timestep + 1) :-
+    occurs(double_down(Actor, Hand), Timestep),
+    holds(current_bet(Actor, Hand, ChipCount), Timestep),
+    NewChipCount = 2 * ChipCount.
 
 % ---------------------------------------------------------
 
