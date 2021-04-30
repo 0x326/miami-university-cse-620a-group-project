@@ -195,7 +195,7 @@ fluent(inertial, current_bet(Player, Hand, ChipCount)) :-
 fluent(inertial, have_split(Player)) :-
     player(Player).
 
-fluent(inertial, have_double_downed(Player, Hand)) :-
+fluent(inertial, have_doubled_down(Player, Hand)) :-
     player(Player),
     hand(Hand).
 
