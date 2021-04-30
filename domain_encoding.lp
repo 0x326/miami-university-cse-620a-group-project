@@ -225,6 +225,16 @@ fluent(defined, game_end(Player, Hand, Result)) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+action(deal_card(Actor, Player, Hand)) :-
+    dealer(Actor),
+    player(Player),
+    hand(Hand).
+
+action(deal_card(Actor, Actor, Hand)) :-
+    dealer(Actor),
+    hand(Hand),
+    Hand = 1.
+
 action(place_bet(Actor, ChipCount)) :-
     player(Actor),
     max_chip_count(MaxChipCount),
@@ -244,16 +254,6 @@ action(split(Actor)) :-
 action(double_down(Actor, Hand)) :-
     player(Actor),
     hand(Hand).
-
-action(deal_card(Actor, Player, Hand)) :-
-    dealer(Actor),
-    player(Player),
-    hand(Hand).
-
-action(deal_card(Actor, Actor, Hand)) :-
-    dealer(Actor),
-    hand(Hand),
-    Hand = 1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
