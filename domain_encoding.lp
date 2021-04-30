@@ -414,3 +414,172 @@ holds(game_end(Player, Hand, win), Timestep) :-
     -holds(bust(Player, Hand), Timestep).
 
 % ---------------------------------------------------------
+
+% -chip_count(Player, OtherChipCount) if
+%   chip_count(Player, ChipCount)
+%   OtherChipCount != ChipCount
+-holds(chip_count(Player, OtherChipCount), Timestep) :-
+    step(Timestep),
+    holds(chip_count(Player, ChipCount), Timestep),
+    OtherChipCount != ChipCount.
+
+% ---------------------------------------------------------
+
+% -current_bet(Player, Hand, OtherChipCount) if
+%   current_bet(Player, Hand, ChipCount)
+%   OtherChipCount != ChipCount
+-holds(current_bet(Player, Hand, OtherChipCount), Timestep) :-
+    step(Timestep),
+    holds(current_bet(Player, Hand, ChipCount), Timestep),
+    OtherChipCount != ChipCount.
+
+% ---------------------------------------------------------
+
+% impossible Action1, Action2 if
+%   Action1 != Action2
+
+% ---------------------------------------------------------
+
+% place_bet(Actor, ChipCount)
+% causes current_bet(Actor, Hand, ChipCount)
+% if
+%   Hand = 1
+
+% place_bet(Actor, ChipCount)
+% causes chip_count(Actor, NewChipCount)
+% if
+%   chip_count(Actor, OldChipCount)
+%   NewChipCount = OldChipCount - ChipCount
+
+% impossible place_bet(Actor, ChipCount) if
+%   current_bet(Actor, Hand, ChipCount)
+%   ChipCount > 0
+
+% impossible place_bet(Actor, ChipCount) if
+%   chip_count(Actor, AvailableChipCount)
+%   ChipCount > AvailableChipCount
+
+% ---------------------------------------------------------
+
+% deal_card(Actor, Person, Hand)
+% causes card_in_hand(Person, Hand, Card)
+% if
+%   deck_card(Card, Position)
+%   Position = 1
+
+% deal_card(Actor, Person, Hand)
+% causes -deck_card(Card, Position)
+% if
+%   deck_card(Card, Position)
+%   Position = 1
+
+% deal_card(Actor, Person, Hand)
+% causes deck_card(Card, NewPosition)
+% if
+%   deck_card(Card, Position)
+%   Position > 1
+%   NewPosition = Position - 1
+
+% ---------------------------------------------------------
+
+% hit(Actor, Hand)
+% causes card_in_hand(Actor, Hand, Card)
+% if
+%   deck_card(Card, Position)
+%   Position = 1
+
+% hit(Actor, Hand)
+% causes -deck_card(Card, Position)
+% if
+%   deck_card(Card, Position)
+%   Position = 1
+
+% hit(Actor, Hand)
+% causes deck_card(Card, NewPosition)
+% if
+%   deck_card(Card, Position)
+%   Position > 1
+%   NewPosition = Position - 1
+
+% impossible hit(Actor, Hand) if
+%   have_doubled_down(Actor, Hand)
+
+% ---------------------------------------------------------
+
+% stand(Actor, Hand) does nothing
+
+% ---------------------------------------------------------
+
+% split(Actor)
+% causes have_split(Actor)
+
+% impossible split(Actor) if
+%   card_in_hand(Actor, Hand, Card1)
+%   card_in_hand(Actor, Hand, Card2)
+%   card_in_hand(Actor, Hand, Card3)
+%   Card1 != Card2
+%   Card2 != Card3
+
+% impossible split(Actor) if
+%   have_split(Actor, Hand)
+%   card_in_hand(Actor, Hand, Card1)
+%   card_in_hand(Actor, Hand, Card2)
+%   Card1 != Card2
+%   card_rank(Card1, Rank1)
+%   card_rank(Card2, Rank2)
+%   Rank1 != Rank2
+
+% impossible split(Actor) if
+%   have_split(Actor, Hand)
+
+% split(Actor)
+% causes current_bet(Actor, Hand, NewChipCount)
+% if
+%   Hand = 1
+%   current_bet(Actor, Hand, ChipCount)
+%   NewChipCount = (ChipCount / 2) + (ChipCount \ 2)
+
+% split(Actor)
+% causes current_bet(Actor, Hand + 1, NewChipCount)
+% if
+%   Hand = 2
+%   current_bet(Actor, Hand, ChipCount)
+%   NewChipCount = ChipCount / 2
+
+% split(Actor)
+% causes -card_in_hand(Person, Hand, Card2)
+% if
+%   Hand = 1
+%   card_in_hand(Person, Hand, Card1)
+%   card_in_hand(Person, Hand, Card2)
+%   Card1 < Card2
+
+% split(Actor)
+% causes card_in_hand(Person, Hand + 1, Card2)
+% if
+%   Hand = 1
+%   card_in_hand(Person, Hand, Card1)
+%   card_in_hand(Person, Hand, Card2)
+%   Card1 < Card2
+
+% ---------------------------------------------------------
+
+% double_down(Actor, Hand)
+% causes have_doubled_down(Actor, Hand)
+
+% impossible double_down(Actor, Hand) if
+%   have_doubled_down(Actor, Hand)
+
+% double_down(Actor, Hand)
+% causes current_bet(Actor, Hand, NewChipCount)
+% if
+%   current_bet(Actor, Hand, ChipCount)
+%   NewChipCount = 2 * ChipCount
+
+% ---------------------------------------------------------
+
+% end_game(Actor)
+% causes
+% if
+%   game_end(Actor, Hand, Result)
+%   Result = win
