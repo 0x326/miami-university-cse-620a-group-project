@@ -199,6 +199,10 @@ fluent(inertial, have_doubled_down(Player, Hand)) :-
     player(Player),
     hand(Hand).
 
+fluent(inertial, have_stayed(Player, Hand)) :-
+    player(Player),
+    hand(Hand).
+
 % ---------------------------------------------------------
 
 fluent(defined, hand_score(Person, Hand, Score)) :-
@@ -502,11 +506,18 @@ holds(game_end(Player, Hand, win), Timestep) :-
 %   NewPosition = Position - 1
 
 % impossible hit(Actor, Hand) if
+%   have_stayed(Actor, Hand)
+
+% impossible hit(Actor, Hand) if
 %   have_doubled_down(Actor, Hand)
 
 % ---------------------------------------------------------
 
-% stand(Actor, Hand) does nothing
+% stand(Actor, Hand)
+% causes have_stayed(Actor, Hand)
+
+% impossible stand(Actor, Hand) if
+%   have_stayed(Actor, Hand)
 
 % ---------------------------------------------------------
 
