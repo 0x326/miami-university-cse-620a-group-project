@@ -691,3 +691,9 @@ holds(current_bet(Actor, Hand, NewChipCount), Timestep + 1) :-
 % if
 %   game_end(Actor, Hand, Result)
 %   Result = win
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Optiminization %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#maximize{ ChipCount, Player :
+    holds(chip_count(Player, ChipCount), max_timestep)
+}.
