@@ -42,6 +42,62 @@
 
 \section{Introduction}
 
+In this project, we are encoding the rules of Blackjack (more precisely, its actions and their effects) into action language $\mathcal{AL}$.
+In Blackjack, players sit around a table with a dealer.
+In order to play, each player places an initial bet on the table.
+If they eventually win the game, twice the value of their bet is returned.
+If they lose, then the entirety of the bet is kept by the dealer.
+When there is a tie (called a ``push''), the bet is returned at its original value.
+In casinos, players continue multiple games of Blackjack consecutively, though the scope of this project is for a single game only.
+
+Each card is assigned a predetermined value.
+This value is calculated on the basis of the card's face (its suit is disregarded).
+A face of two is worth 2 points, a face of three is worth 3 points, and so on.
+Exceptions to this rule are the King, Queen, and Jack cards (which all are worth 10 points) and the Ace (which can either be worth 1 or 11 points, whichever is most advantageous to the hand).
+
+The goal of the game is to end with a higher hand value than the dealer, without exceeding an upper bound of 21 points.
+If the player or the dealer exceeds 21 points, that person is said to ``bust''.
+If a player busts, they lose immediately, even if the dealer also busts.
+If a player has less points than the dealer, then that player loses.
+If the dealer busts, all players that have not bust themselves win.
+Other win conditions include being dealt a ``blackjack'' in which the player's hand consists of an ace and any 10 point value card, which, provided the dealer doesn't also have one, resulting in an instant win and usually an award of 1.5 times their bet.
+
+Once all bets have been placed, the dealer draws two cards for each player from a shuffled deck of cards.
+For simplicity, we will assume that it is a standard deck of 52 cards and that the order of the cards in the deck is known.
+In clockwise order, all players take turns deciding which action they would like to take.
+Players have a number of actions they can take once being dealt their initial hand, namely, ``stand'', ``hit'', ``split'', and ``double down''.
+\begin{itemize}
+    \item ``Stand'' - If a player is confident in their current hand, or afraid of busting, they can choose to ``stand'' also known as ``stay'' or ``hold''.
+        This ends their turn and they cannot be dealt any new cards.
+
+    \item ``Hit'' - A player will hit when they want a new card.
+        The dealer will then deal them a new card.
+
+    \item ``Split'' - Only if a player is dealt two of the same cards (face value), they can choose to ``split'' their hand, in which case their bet is divided between both cards and each one now counts as a separate, independent hand that they now must play.
+
+    \item ``Double down'' - If a player is confident that they need exactly one more card, they can increase their bet (usually double).
+        They will then be dealt one more card, and they are then forced to stand.
+\end{itemize}
+
+For simplicity, we will assume that there is only one player and the dealer, since other players do not significantly affect the outcome.
+After the players all finish their turns, it is now the dealer's turn.
+Unlike the players, the dealer does not get a choice in their actions.
+While their hand's value is below 17, they must continue to hit, even if there is a high risk of busting.
+This project will receive inputs on the actions that players take, given a specified sequence, and determines how the game ends and whether it follows the rules.
+
+Simplifying assumptions:
+
+\begin{itemize}
+    \item The order of cards within the deck is known
+    \item Not optimizing
+    \item Not trying to maximize take-home money
+    \item No Blackjack insurance
+    \item No Blackjack surrender
+    \item Only one player at the table with the dealer
+    \item The dealer will only deal one card to their own hand initially to simulate one being face down
+    \item Blackjacks are treated as normal hands (they will choose to stay) until the bet is awarded
+\end{itemize}
+
 \section{Previous Work}
 
 \section{Techniques}
