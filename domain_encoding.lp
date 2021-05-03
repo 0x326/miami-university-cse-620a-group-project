@@ -11,6 +11,7 @@
 %
 % Output predicates:
 %   - holds(game_end(Player, Hand, Result), Timestep)
+%   - occurs(Action, Timestep)
 %
 % KRR methodology:
 %   - dynamic domains
