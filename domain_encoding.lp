@@ -175,7 +175,8 @@ agent(Person) :-
 
 fluent(inertial, deck_card(Card, Position)) :-
     card(Card),
-    position(Position).
+    CardCount = #count{ Card : card(Card) },
+    Position = 1..CardCount.
 
 fluent(inertial, card_in_hand(Person, Hand, Card)) :-
     person(Person),
