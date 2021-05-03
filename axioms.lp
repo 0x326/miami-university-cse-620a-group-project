@@ -45,15 +45,3 @@ step(Timestep) :-
 holds(Fluent, Timestep) | -holds(Fluent, Timestep) :-
     fluent(inertial, Fluent),
     Timestep = 0.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Reality Check Axioms %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-:-
-    observed(Fluent, Timestep),
-    Timestep <= current_Timestep,
-    -holds(Fluent, Timestep).
-
-:-
-    -observed(Fluent, Timestep),
-    Timestep <= current_Timestep,
-    holds(Fluent, Timestep).
