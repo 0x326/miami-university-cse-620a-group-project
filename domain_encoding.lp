@@ -198,11 +198,11 @@ fluent(inertial, split_count(Player, SplitCount)) :-
     MaxSplitCount = 3,
     SplitCount = 0..MaxSplitCount.
 
-fluent(inertial, have_doubled_down(Player, Hand)) :-
+fluent(inertial, has_doubled_down(Player, Hand)) :-
     player(Player),
     hand(Hand).
 
-fluent(inertial, have_stayed(Player, Hand)) :-
+fluent(inertial, has_stayed(Player, Hand)) :-
     player(Player),
     hand(Hand).
 
@@ -561,26 +561,26 @@ holds(deck_card(Card, NewPosition), Timestep + 1) :-
     NewPosition = Position - 1.
 
 % impossible hit(Actor, Hand) if
-%   have_stayed(Actor, Hand)
+%   has_stayed(Actor, Hand)
 -occurs(hit(Actor, Hand), Timestep) :-
-    occurs(have_stayed(Actor, Hand), Timestep).
+    occurs(has_stayed(Actor, Hand), Timestep).
 
 % impossible hit(Actor, Hand) if
-%   have_doubled_down(Actor, Hand)
+%   has_doubled_down(Actor, Hand)
 -occurs(hit(Actor, Hand), Timestep) :-
-    occurs(have_doubled_down(Actor, Hand), Timestep).
+    occurs(has_doubled_down(Actor, Hand), Timestep).
 
 % ---------------------------------------------------------
 
 % stand(Actor, Hand)
-% causes have_stayed(Actor, Hand)
-holds(have_stayed(Actor, Hand), Timestep + 1) :-
+% causes has_stayed(Actor, Hand)
+holds(has_stayed(Actor, Hand), Timestep + 1) :-
     occurs(stand(Actor, Hand), Timestep).
 
 % impossible stand(Actor, Hand) if
-%   have_stayed(Actor, Hand)
+%   has_stayed(Actor, Hand)
 -occurs(stand(Actor, Hand), Timestep) :-
-    holds(have_stayed(Actor, Hand), Timestep).
+    holds(has_stayed(Actor, Hand), Timestep).
 
 % ---------------------------------------------------------
 
@@ -606,7 +606,7 @@ holds(split_count(Actor, SplitCount + 1), Timestep + 1) :-
     Card2 != Card3.
 
 % impossible split(Actor, Hand) if
-%   have_split(Actor, Hand)
+%   has_split(Actor, Hand)
 %   card_in_hand(Actor, Hand, Card1)
 %   card_in_hand(Actor, Hand, Card2)
 %   Card1 != Card2
@@ -614,7 +614,7 @@ holds(split_count(Actor, SplitCount + 1), Timestep + 1) :-
 %   card_rank(Card2, Rank2)
 %   Rank1 != Rank2
 -occurs(split(Actor, Hand), Timestep) :-
-    holds(have_split(Actor, Hand), Timestep),
+    holds(has_split(Actor, Hand), Timestep),
     holds(card_in_hand(Actor, Hand, Card1), Timestep),
     holds(card_in_hand(Actor, Hand, Card2), Timestep),
     Card1 != Card2,
@@ -623,9 +623,9 @@ holds(split_count(Actor, SplitCount + 1), Timestep + 1) :-
     Rank1 != Rank2.
 
 % impossible split(Actor, Hand) if
-%   have_split(Actor, Hand)
+%   has_split(Actor, Hand)
 -occurs(split(Actor, Hand), Timestep) :-
-    holds(have_split(Actor, Hand), Timestep).
+    holds(has_split(Actor, Hand), Timestep).
 
 % split(Actor, Hand)
 % causes current_bet(Actor, Hand, NewChipCount)
@@ -674,14 +674,14 @@ holds(card_in_hand(Person, Hand + 1, Card2), Timestep + 1) :-
 % ---------------------------------------------------------
 
 % double_down(Actor, Hand)
-% causes have_doubled_down(Actor, Hand)
-holds(have_doubled_down(Actor, Hand), Timestep + 1) :-
+% causes has_doubled_down(Actor, Hand)
+holds(has_doubled_down(Actor, Hand), Timestep + 1) :-
     occurs(double_down(Actor, Hand), Timestep).
 
 % impossible double_down(Actor, Hand) if
-%   have_doubled_down(Actor, Hand)
+%   has_doubled_down(Actor, Hand)
 -occurs(double_down(Actor, Hand), Timestep) :-
-    holds(have_doubled_down(Actor, Hand), Timestep).
+    holds(has_doubled_down(Actor, Hand), Timestep).
 
 % double_down(Actor, Hand)
 % causes current_bet(Actor, Hand, NewChipCount)
