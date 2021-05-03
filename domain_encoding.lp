@@ -5,9 +5,9 @@
 %   - player(Player)
 %   - dealer(Dealer)
 %
-%   - obs(Fluent, 0)
-%   - -obs(Fluent, 0)
-%   - hpd(Action, Timestep)
+%   - holds(Fluent, 0)
+%   - -holds(Fluent, 0)
+%   - occurs(Action, Timestep)
 %
 % Output predicates:
 %   - holds(game_end(Player, Hand, Result), Timestep)
