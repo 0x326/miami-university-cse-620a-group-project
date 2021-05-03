@@ -159,17 +159,12 @@ game_result(Result) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-person(Person) :-
-    Person = (
-        "Alice";
-        "Bob"
-    ).
-
+% person(Person)
+% player(Player)
 % dealer(Dealer)
 
-agent(Person) :-
-    person(Person),
-    Person = "Alice".
+person(X) :- player(X).
+person(X) :- dealer(X).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
