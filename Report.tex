@@ -40,6 +40,26 @@
 
 \maketitle
 
+\begin{center}
+
+    ABSTRACT
+
+    \vspace{4\baselineskip}
+
+\end{center}
+
+\noindent
+Games of chance are games where there is intrinsic uncertainty in its expected outcome.
+Those played at casinos are a special variety, known for their rigid rules and their extensive basis on probability.
+As such, they are good candidates for formal modeling.
+One such game is Blackjack.
+Blackjack is a competitive casino game where players compete against the dealer to maximize their score underneath a numeric upper bound.
+While a single card deck is shared among multiple players, winners are determined respective to the player and dealer alone (i.e.~players do not compete against each other).
+As this game involves choices at multiple discrete moments of time (i.e.~a dynamic domain), it can be modelled using an action description language.
+In this paper, we describe our approach to determining optimal playing decisions in a dynamic domain using Answer Set Programming (ASP).
+By encoding the rules of the game in action language $\mathcal{AL}$ and representing arrangements of cards and player choices as fluents and actions, we can reason over the set of logically-possible game outcomes.
+Using ASP optimization, we can determine which actions make a win-outcome most probable.
+
 \section{Introduction}
 
 In this project, we are encoding the rules of Blackjack (more precisely, its actions and their effects) into action language $\mathcal{AL}$.
