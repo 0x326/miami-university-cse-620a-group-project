@@ -117,6 +117,44 @@ Simplifying assumptions:
 
 \section{Encoding}
 
+According to \cref{eq:rule_1}, if $body$ is true then $head$ is true.
+
+\begin{equation}
+    \label{eq:rule_1}
+    head \leftarrow body
+\end{equation}
+
+\Cref{eq:rule_2} is an example of a long ASP rule:
+\begin{equation}
+\begin{split}
+    \label{eq:rule_2}
+    head \leftarrow
+        & body_1, \\
+        & \neg body_2, \\
+        & \textbf{not } body_3
+\end{split}
+\end{equation}
+
+We can use \texttt{gather} to join multiple equations together
+\begin{gather}
+    \label{eq:rule_3}
+    head_1 \leftarrow body_1 \\
+    \begin{split}
+        \label{eq:rule_4}
+        head_2 \leftarrow
+            & body_1, \\
+            & \neg body_2, \\
+            & \textbf{not } body_3
+    \end{split} \\
+    \begin{split}
+        \label{eq:rule_5}
+        head_3 \leftarrow
+            & body_1, \\
+            & \neg body_2, \\
+            & \textbf{not } body_3
+    \end{split}
+\end{gather}
+
 \section{Evaluation}
 
 \section{Conclusion}
