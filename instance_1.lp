@@ -7,6 +7,7 @@ dealer("Ray").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% A shuffled deck of cards
 holds(deck_card("six of hearts", 1), 0).
 holds(deck_card("eight of clubs", 2), 0).
 holds(deck_card("four of diamonds", 3), 0).
@@ -96,3 +97,7 @@ occurs(deal_card(Actor, Player, Hand), Timestep) :-
     Actor = "Ray",
     Player = "Ray",
     Hand = 1.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Gameplay %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#show holds/2.
