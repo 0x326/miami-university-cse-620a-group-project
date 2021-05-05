@@ -514,17 +514,6 @@ holds(card_in_hand(Person, Hand, Card), Timestep + 1) :-
     deck_card(Card, Position).
 
 % deal_card(Actor, Person, Hand)
-% causes -deck_card(Card, Position)
-% if
-%   deck_position(Position)
-%   deck_card(Card, Position)
--holds(deck_card(Card, Position), Timestep + 1) :-
-    step(Timestep),
-    occurs(deal_card(Actor, Person, Hand), Timestep),
-    deck_card(Card, Position),
-    holds(deck_position(Position), Timestep).
-
-% deal_card(Actor, Person, Hand)
 % causes deck_position(Position + 1)
 % if
 %   deck_position(Position)
