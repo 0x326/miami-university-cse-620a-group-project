@@ -217,6 +217,7 @@ fluent(defined, hand_score(Person, Hand, Score)) :-
     MaxScore = #sum{ CardValue, Card :
         card_value(Card, CardValue)
     },
+    MaxScore <= 30,
     Score = 0..MaxScore.
 
 fluent(defined, bust(Person, Hand)) :-
@@ -314,7 +315,8 @@ holds(hand_score(Person, Hand, Score), Timestep) :-
     Score = #sum{ CardValue, Card :
         holds(card_in_hand(Person, Hand, Card), Timestep),
         card_value(Card, CardValue)
-    }.
+    },
+    Score <= 30.
 
 % ---------------------------------------------------------
 
