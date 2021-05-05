@@ -277,7 +277,8 @@ action(end_game(Actor)) :-
 -holds(deck_card(Card, OtherPosition), Timestep) :-
     step(Timestep),
     holds(deck_card(Card, Position), Timestep),
-    position(OtherPosition),
+    max_card_count(CardCount),
+    OtherPosition = 1..CardCount,
     OtherPosition != Position.
 
 % ---------------------------------------------------------
