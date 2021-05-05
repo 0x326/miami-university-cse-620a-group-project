@@ -23,10 +23,10 @@ holds(Fluent, Timestep + 1) :-
     fluent(defined, Fluent),
     not holds(Fluent, Timestep).
 
-holds(Fluent, Timestep) :-
-    step(Timestep),
-    fluent(defined_negative, Fluent),
-    not -holds(Fluent, Timestep).
+% holds(Fluent, Timestep) :-
+%     step(Timestep),
+%     fluent(defined_negative, Fluent),
+%     not -holds(Fluent, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption for actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -42,6 +42,15 @@ step(Timestep) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-holds(Fluent, Timestep) | -holds(Fluent, Timestep) :-
+% holds(Fluent, Timestep) | -holds(Fluent, Timestep) :-
+%     fluent(inertial, Fluent),
+%     Timestep = 0.
+
+uncertain(Fluent) :-
     fluent(inertial, Fluent),
+    not holds(Fluent, Timestep),
+    not -holds(Fluent, Timestep),
     Timestep = 0.
+
+:-
+    uncertain(_).
