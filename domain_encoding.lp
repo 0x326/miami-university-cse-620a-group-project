@@ -214,9 +214,8 @@ fluent(inertial, has_stayed(Player, Hand)) :-
 fluent(defined, hand_score(Person, Hand, Score)) :-
     person(Person),
     hand(Hand),
-    MaxScore = #sum{ CardValue, CardSuit :
-        card_suit(CardSuit),
-        card_value(CardValue)
+    MaxScore = #sum{ CardValue, Card :
+        card_value(Card, CardValue)
     },
     Score = 0..MaxScore.
 
@@ -314,7 +313,7 @@ holds(hand_score(Person, Hand, Score), Timestep) :-
     hand(Hand),
     Score = #sum{ CardValue, Card :
         holds(card_in_hand(Person, Hand, Card), Timestep),
-        card_value(CardValue)
+        card_value(Card, CardValue)
     }.
 
 % ---------------------------------------------------------
