@@ -577,6 +577,12 @@ holds(deck_position(Position + 1), Timestep + 1) :-
     step(Timestep),
     occurs(has_doubled_down(Actor, Hand), Timestep).
 
+% impossible hit(Actor, Hand) if
+%   bust(Actor, Hand)
+-occurs(hit(Actor, Hand), Timestep) :-
+    step(Timestep),
+    holds(bust(Actor, Hand), Timestep).
+
 % ---------------------------------------------------------
 
 % stand(Actor, Hand)
@@ -687,6 +693,18 @@ holds(card_in_hand(Person, Hand + 1, Card2), Timestep + 1) :-
     holds(card_in_hand(Person, Hand, Card1), Timestep),
     holds(card_in_hand(Person, Hand, Card2), Timestep),
     Card1 < Card2.
+
+% ---------------------------------------------------------
+
+% -split_count(Player, OtherSplitCount) if
+%   split_count(Player, SplitCount)
+%   OtherSplitCount != SplitCount
+-holds(split_count(Player, OtherSplitCount), Timestep) :-
+    step(Timestep),
+    holds(split_count(Player, SplitCount), Timestep),
+    MaxSplitCount = 3,
+    OtherSplitCount = 0..MaxSplitCount,
+    OtherSplitCount != SplitCount.
 
 % ---------------------------------------------------------
 
