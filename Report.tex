@@ -120,7 +120,7 @@ According to \cref{eq:rule_1}, if $body$ is true then $head$ is true.
 \begin{equation}
 \begin{split}
     \label{eq:rule_2}
-    head \leftarrow
+    head \leftarrow \
         & body_1, \\
         & \neg body_2, \\
         & \textbf{not } body_3
@@ -133,14 +133,14 @@ We can use \texttt{gather} to join multiple equations together
     head_1 \leftarrow body_1 \\
     \begin{split}
         \label{eq:rule_4}
-        head_2 \leftarrow
+        head_2 \leftarrow \
             & body_1, \\
             & \neg body_2, \\
             & \textbf{not } body_3
     \end{split} \\
     \begin{split}
         \label{eq:rule_5}
-        head_3 \leftarrow
+        head_3 \leftarrow \
             & body_1, \\
             & \neg body_2, \\
             & \textbf{not } body_3
