@@ -172,11 +172,11 @@ person(X) :- player(X).
 person(X) :- dealer(X).
 
 % max_chip_count(MaxChipCount)
+% deck_card(Card, Position)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-fluent(inertial, deck_card(Card, Position)) :-
-    card(Card),
+fluent(inertial, deck_position(Position)) :-
     max_card_count(CardCount),
     Position = 1..CardCount.
 
@@ -270,12 +270,12 @@ action(end_game(Actor)) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% -deck_card(Card, OtherPosition) if
-%   deck_card(Card, Position),
+% -deck_position(OtherPosition) if
+%   deck_position(Position) if
 %   OtherPosition != Position
--holds(deck_card(Card, OtherPosition), Timestep) :-
+-holds(deck_position(OtherPosition), Timestep) :-
     step(Timestep),
-    holds(deck_card(Card, Position), Timestep),
+    holds(deck_position(Position), Timestep),
     max_card_count(CardCount),
     OtherPosition = 1..CardCount,
     OtherPosition != Position.
@@ -500,68 +500,59 @@ holds(chip_count(Actor, NewChipCount), Timestep + 1) :-
 % deal_card(Actor, Person, Hand)
 % causes card_in_hand(Person, Hand, Card)
 % if
+%   deck_position(Position)
 %   deck_card(Card, Position)
-%   Position = 1
 holds(card_in_hand(Person, Hand, Card), Timestep + 1) :-
     occurs(deal_card(Actor, Person, Hand), Timestep),
-    holds(deck_card(Card, Position), Timestep),
-    Position = 1.
+    holds(deck_position(Position), Timestep),
+    deck_card(Card, Position).
 
 % deal_card(Actor, Person, Hand)
 % causes -deck_card(Card, Position)
 % if
+%   deck_position(Position)
 %   deck_card(Card, Position)
-%   Position = 1
 -holds(deck_card(Card, Position), Timestep + 1) :-
     occurs(deal_card(Actor, Person, Hand), Timestep),
-    holds(deck_card(Card, Position), Timestep),
-    Position = 1.
+    deck_card(Card, Position),
+    holds(deck_position(Position), Timestep).
 
 % deal_card(Actor, Person, Hand)
-% causes deck_card(Card, NewPosition)
+% causes deck_position(Position + 1)
 % if
-%   deck_card(Card, Position)
-%   Position > 1
-%   NewPosition = Position - 1
-holds(deck_card(Card, NewPosition), Timestep + 1) :-
+%   deck_position(Position)
+holds(deck_position(Position + 1), Timestep + 1) :-
     occurs(deal_card(Actor, Person, Hand), Timestep),
-    holds(deck_card(Card, Position), Timestep),
-    Position > 1,
-    NewPosition = Position - 1.
+    holds(deck_postion(Position), Timestep).
 
 % ---------------------------------------------------------
 
 % hit(Actor, Hand)
 % causes card_in_hand(Actor, Hand, Card)
 % if
+%   deck_position(Position)
 %   deck_card(Card, Position)
-%   Position = 1
 holds(card_in_hand(Actor, Hand, Card), Timestep + 1) :-
     occurs(hit(Actor, Hand), Timestep),
-    holds(deck_card(Card, Position), Timestep),
-    Position = 1.
+    deck_card(Card, Position).
 
 % hit(Actor, Hand)
 % causes -deck_card(Card, Position)
 % if
+%   deck_position(Position)
 %   deck_card(Card, Position)
-%   Position = 1
 -holds(deck_card(Card, Position), Timestep + 1) :-
     occurs(hit(Actor, Hand), Timestep),
-    holds(deck_card(Card, Position), Timestep),
-    Position = 1.
+    holds(deck_position(Position), Timestep),
+    deck_card(Card, Position).
 
 % hit(Actor, Hand)
-% causes deck_card(Card, NewPosition)
+% causes deck_position(Position + 1)
 % if
-%   deck_card(Card, Position)
-%   Position > 1
-%   NewPosition = Position - 1
-holds(deck_card(Card, NewPosition), Timestep + 1) :-
+%   deck_position(Position)
+holds(deck_position(Position + 1), Timestep + 1) :-
     occurs(hit(Actor, Hand), Timestep),
-    holds(deck_card(Card, Position), Timestep),
-    Position > 1,
-    NewPosition = Position - 1.
+    holds(deck_position(Position), Timestep).
 
 % impossible hit(Actor, Hand) if
 %   has_stayed(Actor, Hand)
