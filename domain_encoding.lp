@@ -148,6 +148,11 @@ card_value(Card, CardValue) :-
     CardRank = king,
     CardValue = 10.
 
+max_card_count(CardCount) :-
+    CardCount = #count{ Card :
+        card(Card)
+    }.
+
 hand(1; 2).
 
 game_result(Result) :-
@@ -166,11 +171,13 @@ game_result(Result) :-
 person(X) :- player(X).
 person(X) :- dealer(X).
 
+% max_chip_count(MaxChipCount)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fluent(inertial, deck_card(Card, Position)) :-
     card(Card),
-    CardCount = #count{ Card : card(Card) },
+    max_card_count(CardCount),
     Position = 1..CardCount.
 
 fluent(inertial, card_in_hand(Person, Hand, Card)) :-
