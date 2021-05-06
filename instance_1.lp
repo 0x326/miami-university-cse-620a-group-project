@@ -79,6 +79,7 @@ holds(deck_position(Position), Timestep) :-
 holds(chip_count(Player, 20), Timestep) :-
     Timestep = 0,
     Player = "Bob".
+
 holds(current_bet(Player, Hand, 0), Timestep) :-
     Timestep = 0,
     Player = "Bob",
