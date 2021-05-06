@@ -95,7 +95,6 @@ While their hand's value is below 17, they must continue to hit, even if there i
 This project will receive inputs on the actions that players take, given a specified sequence, and determines how the game ends and whether it follows the rules.
 
 Simplifying assumptions:
-
 \begin{itemize}
     \item The order of cards within the deck is known
     \item Not optimizing
@@ -132,7 +131,6 @@ Statics define specific rules throughout our domain that do not change throughou
 These include facts and rules regarding cards and their values, people-including players and dealers, the max chip count
 that a player can have, and the position in the deck that a particular card is located.
 Some examples of our statics include:
-
 \begin{gather}
     person(Person). \\
     player(Player). \\
@@ -149,7 +147,6 @@ the cards in a person's hand, the player's chip count, the player's current bet,
 the number of times a player has split, if the player has doubled down, and
 if the player has chosen to stay.
 An example of one of our inertial fluents is:
-
 \begin{equation}
     \begin{split}
         fluent(inertial, card\_in\_hand(Person, Hand, Card)) \leftarrow \
@@ -163,7 +160,6 @@ We also include defined fluents which involve utilizing other fluents to determi
 These include the score of a given hand, whether or not a person has busted,
 whether or not a person has a blackjack, and when the game has ended with the result.
 And example of one of our defined fluents is:
-
 \begin{equation}
     \begin{split}
         fluent(defined, game\_end(Player, Hand, Result)) \leftarrow \
@@ -181,7 +177,6 @@ and are consistent with the possible choices in a real game of blackjack.
 These actions include dealing cards to both the player and the dealer, a player placing their bet,
 a player deciding to hit, stand, split, or double down, and ending the game.
 An example of an action is:
-
 \begin{equation}
     \begin{split}
         action(stand(Actor, Hand)) \leftarrow \
