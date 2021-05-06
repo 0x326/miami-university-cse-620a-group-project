@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 
-\title{Group Project}
+\title{Blackjack \\ Encoded in a Dynamic Domain}
 
 \author{
     John Meyer
@@ -9,7 +9,7 @@
     Andrew DePero
 }
 
-\date{November 2020}
+\date{May 2021}
 
 % Enable equation cross-referencing \eqref{}
 \usepackage{amsmath}
@@ -108,6 +108,91 @@ Simplifying assumptions:
 \end{itemize}
 
 \section{Encoding}
+
+To encode this domain, we must consider each component and properly represent it.
+Because our topic involves utilizing a dynamic domain, we make use of separate files for our axioms,
+domain encoding, and instantiations.
+
+
+\subsection{Axioms}
+
+This section defines the use of various axioms that aid in the use of dynamic domain encoding.
+These include the behavior of fluents, such as the inertia axiom, awareness axiom, and closed world assumptions for both fluents and actions.
+Additionally, it also desribes the behavior of the timesteps and defines their possible values.
+
+\subsection{Domain Encoding}
+
+This section includes all required information in order to instantiate our domain.
+This is split into three main sections: statics, fluents, actions, causal laws, executability
+conditions, and others.
+
+\subsubsection{Statics}
+
+Statics define specific rules throughout our domain that do not change throughout the instance.
+These include facts and rules regarding cards and their values, people-including players and dealers, the max chip count
+that a player can have, and the position in the deck that a particular card is located.
+Some examples of our statics include:
+
+\begin{gather}
+    person(Person). \\
+    player(Player). \\
+    dealer(Dealer). \\
+    max\_chip\_count(MaxChipCount). \\
+    deck\_card(Card, Position).
+\end{gather}
+
+\subsubsection{Fluents}
+
+The fluents in our program describe all possible variable states when it comes to playing the game of blackjack.
+Our encoding includes inertial fluents describing the current position in the deck,
+the cards in a person's hand, the player's chip count, the player's current bet,
+the number of times a player has split, if the player has doubled down, and
+if the player has chosen to stay. An example of one of our inertial fluents is:
+
+\begin{equation}
+    \begin{split}
+        fluent(inertial, card\_in\_hand(Person, Hand, Card)) \leftarrow \
+            & person(Person), \\
+            & hand(Hand), \\
+            & card(Card).
+    \end{split}
+\end{equation}
+
+We also include defined fluents which involve utilizing other fluents to determine their applicability.
+These include the score of a given hand, whether or not a person has busted,
+whether or not a person has a blackjack, and when the game has ended with the result.
+And example of one of our defined fluents is:
+
+\begin{equation}
+    \begin{split}
+        fluent(defined, game\_end(Player, Hand, Result)) \leftarrow \
+            & player(Player), \\
+            & hand(Hand), \\
+            & game\_result(Result).
+    \end{split}
+\end{equation}
+
+\subsubsection{Actions}
+
+Our program includes the use of actions that occur within the game of blackjack.
+Most of these actions are done by the player because they have the most autonomy in the game,
+and are consistent with the possible choices in a real game of blackjack.
+These actions include dealing cards to both the player and the dealer, a player placing their bet,
+a player deciding to hit, stand, split, or double down, and ending the game.
+An example of an action is:
+
+\begin{equation}
+    \begin{split}
+        action(stand(Actor, Hand)) \leftarrow \
+            & player(Actor), \\
+            & hand(Hand),
+    \end{split}
+\end{equation}
+
+\subsubsection{Causal Laws and Executability Conditions}
+
+\subsection{Instantiation}
+
 
 According to \cref{eq:rule_1}, if $body$ is true then $head$ is true.
 
