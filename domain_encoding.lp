@@ -433,6 +433,23 @@ holds(game_end(Player, Hand, win), Timestep) :-
     holds(bust(Dealer, DealerHand), Timestep),
     -holds(bust(Player, Hand), Timestep).
 
+% game_end(Player, PlayerHand, win) if
+%   hand_score(Player, PlayerHand, PlayerScore)
+%   hand_score(Dealer, DealerHand, DealerScore)
+%   dealer(Dealer)
+%   PlayerScore > DealerScore
+%   not game_end(Player, PlayerHand, lose)
+%   not game_end(Player, PlayerHand, push)
+holds(game_end(Player, PlayerHand, win), Timestep) :-
+    step(Timestep),
+    holds(hand_score(Player, PlayerHand, PlayerScore), Timestep),
+    holds(hand_score(Dealer, DealerHand, DealerScore), Timestep),
+    player(Player),
+    dealer(Dealer),
+    PlayerScore > DealerScore,
+    not holds(game_end(Player, PlayerHand, lose), Timestep),
+    not holds(game_end(Player, PlayerHand, push), Timestep).
+
 % ---------------------------------------------------------
 
 % -chip_count(Player, OtherChipCount) if
