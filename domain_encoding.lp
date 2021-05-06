@@ -718,8 +718,14 @@ holds(current_bet(Actor, Hand, NewChipCount), Timestep + 1) :-
     holds(current_bet(Actor, Hand, ChipCount), Timestep),
     NewChipCount = 2 * ChipCount.
 
+% TODO: Add card to hand
+
+% TODO: Decrease chip_count
+
 % ---------------------------------------------------------
 
+% TODO: Return winnings to chip_count
+%
 % end_game(Actor)
 % causes
 % if
