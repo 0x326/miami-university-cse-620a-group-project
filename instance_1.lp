@@ -75,19 +75,25 @@ holds(deck_position(Position), Timestep) :-
     person_hand(Person, Hand),
     card(Card).
 
-holds(chip_count("Bob", 20), 0).
-holds(current_bet("Bob", Hand, 0), 0) :-
-    person_hand("Bob", Hand).
+holds(chip_count(Player, 20), 0) :-
+    Player = "Bob".
+holds(current_bet(Player, Hand, 0), 0) :-
+    Player = "Bob",
+    person_hand(Player, Hand).
 
-holds(split_count("Bob", 0), 0).
+holds(split_count(Player, 0), 0) :-
+    Player = "Bob".
 
--holds(has_doubled_down("Bob", Hand), 0) :-
-    person_hand("Bob", Hand).
+-holds(has_doubled_down(Player, Hand), 0) :-
+    Player = "Bob",
+    person_hand(Player, Hand).
 
--holds(has_stayed("Bob", Hand), 0) :-
-    person_hand("Bob", Hand).
+-holds(has_stayed(Player, Hand), 0) :-
+    Player = "Bob",
+    person_hand(Player, Hand).
 
-occurs(place_bet("Bob", 10), 0).
+occurs(place_bet(Actor, 10), 0) :-
+    Actor = "Bob".
 
 occurs(deal_card(Actor, Player, Hand), Timestep) :-
     Timestep = 1,
