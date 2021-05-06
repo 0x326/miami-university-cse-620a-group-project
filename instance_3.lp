@@ -127,7 +127,7 @@ occurs(deal_card(Actor, Player, Hand), Timestep) :-
     Player = "Ray",
     Hand = 1.
 
-occurs(stand(Actor, Hand), Timestep) :-
+occurs(hit(Actor, Hand), Timestep) :-
     Timestep = 4,
     Actor = "Bob",
     Hand = 1.

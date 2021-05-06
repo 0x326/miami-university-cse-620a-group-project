@@ -10,7 +10,7 @@
 %   - occurs(Action, Timestep)
 %
 % Output predicates:
-%   - holds(game_end(Player, Hand, Result), Timestep)
+%   - holds(game_end(Player, Hand, Result), max_timestep)
 %   - occurs(Action, Timestep)
 %
 % KRR methodology:
@@ -743,6 +743,8 @@ holds(current_bet(Actor, Hand, NewChipCount), Timestep + 1) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Output predicates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+#show.
 #show uncertain/1.
-#show holds/2.
+#show holds(game_end(Player, Hand, Result), max_timestep) :
+    holds(game_end(Player, Hand, Result), max_timestep).
 #show occurs/2.
