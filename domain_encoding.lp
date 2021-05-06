@@ -765,6 +765,6 @@ holds(current_bet(Actor, Hand, NewChipCount), Timestep + 1) :-
 
 #show.
 #show uncertain/1.
-#show holds(game_end(Player, Hand, Result), max_timestep) :
-    holds(game_end(Player, Hand, Result), max_timestep).
+#show holds(Fluent, max_timestep) :
+    holds(Fluent, max_timestep).
 #show occurs/2.
