@@ -380,30 +380,6 @@ holds(game_end(Player, PlayerHand, lose), Timestep) :-
     dealer(Dealer),
     PlayerScore < DealerScore.
 
-foo(Player, PlayerHand, PlayerScore, Dealer, DealerHand, DealerScore, Timestep, 1) :-
-    step(Timestep),
-    holds(hand_score(Player, PlayerHand, PlayerScore), Timestep),
-    holds(hand_score(Dealer, DealerHand, DealerScore), Timestep),
-    player(Player),
-    dealer(Dealer),
-    PlayerScore < DealerScore.
-
-foo(Player, PlayerHand, PlayerScore, Dealer, DealerHand, DealerScore, Timestep, 2) :-
-    step(Timestep),
-    holds(hand_score(Player, PlayerHand, PlayerScore), Timestep),
-    holds(hand_score(Dealer, DealerHand, DealerScore), Timestep),
-    player(Player),
-    dealer(Dealer),
-    PlayerScore = DealerScore.
-
-both(Player, PlayerHand, "|", PlayerScore, PlayerScore', "|", Dealer, Dealer', "|", DealerHand, DealerHand', "|", DealerScore, DealerScore', "|", Timestep) :-
-    foo(Player, PlayerHand, PlayerScore, Dealer, DealerHand, DealerScore, Timestep, 1),
-    foo(Player, PlayerHand, PlayerScore', Dealer', DealerHand', DealerScore', Timestep, 2).
-
-
-#show game_end(Player, Hand, Result) :
-    holds(game_end(Player, Hand, Result), Timestep).
-
 % ---------------------------------------------------------
 
 % game_end(Player, PlayerHand, push) if
