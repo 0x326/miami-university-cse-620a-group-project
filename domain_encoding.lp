@@ -167,7 +167,7 @@ person_hand(Dealer, Hand) :-
 game_result(Result) :-
     Result = (
         win;
-        loss;
+        lose;
         push  % "tie"
     ).
 
