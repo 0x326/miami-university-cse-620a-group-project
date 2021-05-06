@@ -1,5 +1,3 @@
-% Temporary change for Git copy detection
-
 #const max_timestep = 10.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
