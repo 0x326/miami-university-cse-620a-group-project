@@ -350,22 +350,22 @@ holds(black_jack(Person, Hand), Timestep) :-
 
 % ---------------------------------------------------------
 
-% % -game_end(Player, Hand, OtherResult) if
-% %   game_end(Player, Hand, Result)
-% %   OtherResult != Result
-% -holds(game_end(Player, Hand, OtherResult), Timestep) :-
-%     step(Timestep),
-%     holds(game_end(Player, Hand, Result), Timestep),
-%     game_result(OtherResult),
-%     OtherResult != Result.
+% -game_end(Player, Hand, OtherResult) if
+%   game_end(Player, Hand, Result)
+%   OtherResult != Result
+-holds(game_end(Player, Hand, OtherResult), Timestep) :-
+    step(Timestep),
+    holds(game_end(Player, Hand, Result), Timestep),
+    game_result(OtherResult),
+    OtherResult != Result.
 
 % ---------------------------------------------------------
 
-% % game_end(Player, Hand, lose) if
-% %   bust(Player, Hand)
-% holds(game_end(Player, Hand, lose), Timestep) :-
-%     step(Timestep),
-%     holds(bust(Player, Hand), Timestep).
+% game_end(Player, Hand, lose) if
+%   bust(Player, Hand)
+holds(game_end(Player, Hand, lose), Timestep) :-
+    step(Timestep),
+    holds(bust(Player, Hand), Timestep).
 
 % game_end(Player, PlayerHand, lose) if
 %   hand_score(Player, PlayerHand, PlayerScore)
@@ -395,36 +395,36 @@ holds(game_end(Player, PlayerHand, push), Timestep) :-
     dealer(Dealer),
     PlayerScore = DealerScore.
 
-% % -game_end(Player, PlayerHand, push) if
-% %   hand_score(Player, PlayerHand, PlayerScore)
-% %   hand_score(Dealer, DealerHand, DealerScore)
-% %   dealer(Dealer)
-% %   PlayerScore != DealerScore
-% -holds(game_end(Player, PlayerHand, push), Timestep) :-
-%     step(Timestep),
-%     holds(hand_score(Player, PlayerHand, PlayerScore), Timestep),
-%     holds(hand_score(Dealer, DealerHand, DealerScore), Timestep),
-%     player(Player),
-%     dealer(Dealer),
-%     PlayerScore != DealerScore.
+% -game_end(Player, PlayerHand, push) if
+%   hand_score(Player, PlayerHand, PlayerScore)
+%   hand_score(Dealer, DealerHand, DealerScore)
+%   dealer(Dealer)
+%   PlayerScore != DealerScore
+-holds(game_end(Player, PlayerHand, push), Timestep) :-
+    step(Timestep),
+    holds(hand_score(Player, PlayerHand, PlayerScore), Timestep),
+    holds(hand_score(Dealer, DealerHand, DealerScore), Timestep),
+    player(Player),
+    dealer(Dealer),
+    PlayerScore != DealerScore.
 
-% % ---------------------------------------------------------
+% ---------------------------------------------------------
 
-% % game_end(Player, PlayerHand, win) if
-% %   black_jack(Player, PlayerHand)
-% %   -black_jack(Dealer, DealerHand)
-% holds(game_end(Player, PlayerHand, win), Timestep) :-
-%     step(Timestep),
-%     holds(black_jack(Player, PlayerHand), Timestep),
-%     -holds(black_jack(Dealer, DealerHand), Timestep).
+% game_end(Player, PlayerHand, win) if
+%   black_jack(Player, PlayerHand)
+%   -black_jack(Dealer, DealerHand)
+holds(game_end(Player, PlayerHand, win), Timestep) :-
+    step(Timestep),
+    holds(black_jack(Player, PlayerHand), Timestep),
+    -holds(black_jack(Dealer, DealerHand), Timestep).
 
-% % game_end(Player, Hand, win) if
-% %   bust(Dealer, DealerHand),
-% %   -bust(Player, Hand)
-% holds(game_end(Player, Hand, win), Timestep) :-
-%     step(Timestep),
-%     holds(bust(Dealer, DealerHand), Timestep),
-%     -holds(bust(Player, Hand), Timestep).
+% game_end(Player, Hand, win) if
+%   bust(Dealer, DealerHand),
+%   -bust(Player, Hand)
+holds(game_end(Player, Hand, win), Timestep) :-
+    step(Timestep),
+    holds(bust(Dealer, DealerHand), Timestep),
+    -holds(bust(Player, Hand), Timestep).
 
 % ---------------------------------------------------------
 
