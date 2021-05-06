@@ -527,7 +527,7 @@ holds(card_in_hand(Person, Hand, Card), Timestep + 1) :-
 holds(deck_position(Position + 1), Timestep + 1) :-
     step(Timestep),
     occurs(deal_card(Actor, Person, Hand), Timestep),
-    holds(deck_postion(Position), Timestep).
+    holds(deck_position(Position), Timestep).
 
 % ---------------------------------------------------------
 
