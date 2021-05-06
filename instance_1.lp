@@ -72,20 +72,20 @@ holds(deck_position(Position), Timestep) :-
 
 -holds(card_in_hand(Person, Hand, Card), 0) :-
     person(Person),
-    hand(Hand),
+    person_hand(Person, Hand),
     card(Card).
 
 holds(chip_count("Bob", 20), 0).
 holds(current_bet("Bob", Hand, 0), 0) :-
-    hand(Hand).
+    person_hand("Bob", Hand).
 
 holds(split_count("Bob", 0), 0).
 
 -holds(has_doubled_down("Bob", Hand), 0) :-
-    hand(Hand).
+    person_hand("Bob", Hand).
 
 -holds(has_stayed("Bob", Hand), 0) :-
-    hand(Hand).
+    person_hand("Bob", Hand).
 
 occurs(place_bet("Bob", 10), 0).
 
