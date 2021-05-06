@@ -734,3 +734,7 @@ holds(current_bet(Actor, Hand, NewChipCount), Timestep + 1) :-
 #maximize{ ChipCount, Player :
     holds(chip_count(Player, ChipCount), max_timestep)
 }.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Output predicates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#show holds/2.

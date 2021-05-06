@@ -124,7 +124,3 @@ occurs(deal_card(Actor, Player, Hand), Timestep) :-
     Actor = "Ray",
     Player = "Ray",
     Hand = 1.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Gameplay %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-#show holds/2.
