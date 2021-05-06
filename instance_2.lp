@@ -137,3 +137,7 @@ occurs(deal_card(Actor, Player, Hand), Timestep) :-
     Actor = "Ray",
     Player = "Ray",
     Hand = 1.
+
+occurs(end_game(Actor), Timestep) :-
+    Timestep = 6,
+    Actor = "Bob".
