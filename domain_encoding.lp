@@ -650,12 +650,16 @@ holds(current_bet(Actor, Hand + 1, NewChipCount), Timestep + 1) :-
 % split(Actor, Hand)
 % causes -card_in_hand(Person, Hand, Card2)
 % if
+%   split_count(Actor, SplitCount)
+%   Hand = SplitCount + 1
 %   card_in_hand(Person, Hand, Card1)
 %   card_in_hand(Person, Hand, Card2)
 %   Card1 < Card2
 -holds(card_in_hand(Person, Hand, Card2), Timestep + 1) :-
     step(Timestep),
     occurs(split(Actor, Hand), Timestep),
+    holds(split_count(Actor, SplitCount), Timestep),
+    Hand = SplitCount + 1,
     holds(card_in_hand(Person, Hand, Card1), Timestep),
     holds(card_in_hand(Person, Hand, Card2), Timestep),
     Card1 < Card2.
@@ -663,12 +667,16 @@ holds(current_bet(Actor, Hand + 1, NewChipCount), Timestep + 1) :-
 % split(Actor, Hand)
 % causes card_in_hand(Person, Hand + 1, Card2)
 % if
+%   split_count(Actor, SplitCount)
+%   Hand = SplitCount + 1
 %   card_in_hand(Person, Hand, Card1)
 %   card_in_hand(Person, Hand, Card2)
 %   Card1 < Card2
 holds(card_in_hand(Person, Hand + 1, Card2), Timestep + 1) :-
     step(Timestep),
     occurs(split(Actor, Hand), Timestep),
+    holds(split_count(Actor, SplitCount), Timestep),
+    Hand = SplitCount + 1,
     holds(card_in_hand(Person, Hand, Card1), Timestep),
     holds(card_in_hand(Person, Hand, Card2), Timestep),
     Card1 < Card2.
