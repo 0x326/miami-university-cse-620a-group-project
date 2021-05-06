@@ -13,49 +13,49 @@ dealer("Ray").
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % A shuffled deck of cards
-deck_card("king of spades", 1).
-deck_card("seven of spades", 2).
+deck_card("ten of spades", 1).
+deck_card("five of spades", 2).
 deck_card("eight of spades", 3).
-deck_card("jack of spades", 4).
-deck_card("six of hearts", 5).
-deck_card("eight of clubs", 6).
-deck_card("four of diamonds", 7).
-deck_card("three of hearts", 8).
-deck_card("five of clubs", 9).
-deck_card("ten of clubs", 10).
-deck_card("five of hearts", 11).
-deck_card("nine of spades", 12).
-deck_card("seven of diamonds", 13).
-deck_card("two of hearts", 14).
-deck_card("jack of diamonds", 15).
-deck_card("nine of diamonds", 16).
-deck_card("ace of diamonds", 17).
-deck_card("six of clubs", 18).
-deck_card("four of spades", 19).
-deck_card("seven of hearts", 20).
-deck_card("ace of clubs", 21).
-deck_card("jack of hearts", 22).
-deck_card("five of diamonds", 23).
-deck_card("ten of spades", 24).
-deck_card("three of clubs", 25).
-deck_card("three of spades", 26).
-deck_card("two of clubs", 27).
-deck_card("four of hearts", 28).
-deck_card("queen of clubs", 29).
-deck_card("king of hearts", 30).
-deck_card("jack of clubs", 31).
-deck_card("king of clubs", 32).
-deck_card("seven of clubs", 33).
-deck_card("ten of hearts", 34).
-deck_card("queen of hearts", 35).
-deck_card("four of clubs", 36).
-deck_card("ace of spades", 37).
-deck_card("nine of clubs", 38).
-deck_card("eight of hearts", 39).
-deck_card("king of diamonds", 40).
-deck_card("two of diamonds", 41).
-deck_card("six of diamonds", 42).
-deck_card("five of spades", 43).
+deck_card("three of spades", 4).
+deck_card("jack of spades", 5).
+deck_card("six of hearts", 6).
+deck_card("eight of clubs", 7).
+deck_card("four of diamonds", 8).
+deck_card("three of hearts", 9).
+deck_card("five of clubs", 10).
+deck_card("ten of clubs", 11).
+deck_card("seven of spades", 12).
+deck_card("five of hearts", 13).
+deck_card("nine of spades", 14).
+deck_card("seven of diamonds", 15).
+deck_card("two of hearts", 16).
+deck_card("jack of diamonds", 17).
+deck_card("nine of diamonds", 18).
+deck_card("ace of diamonds", 19).
+deck_card("six of clubs", 20).
+deck_card("four of spades", 21).
+deck_card("seven of hearts", 22).
+deck_card("king of spades", 23).
+deck_card("ace of clubs", 24).
+deck_card("jack of hearts", 25).
+deck_card("five of diamonds", 26).
+deck_card("three of clubs", 27).
+deck_card("two of clubs", 28).
+deck_card("four of hearts", 29).
+deck_card("queen of clubs", 30).
+deck_card("king of hearts", 31).
+deck_card("jack of clubs", 32).
+deck_card("king of clubs", 33).
+deck_card("seven of clubs", 34).
+deck_card("ten of hearts", 35).
+deck_card("queen of hearts", 36).
+deck_card("four of clubs", 37).
+deck_card("ace of spades", 38).
+deck_card("nine of clubs", 39).
+deck_card("eight of hearts", 40).
+deck_card("king of diamonds", 41).
+deck_card("two of diamonds", 42).
+deck_card("six of diamonds", 43).
 deck_card("eight of diamonds", 44).
 deck_card("queen of spades", 45).
 deck_card("ace of hearts", 46).
@@ -127,7 +127,7 @@ occurs(deal_card(Actor, Player, Hand), Timestep) :-
     Player = "Ray",
     Hand = 1.
 
-occurs(stand(Actor, Hand), Timestep) :-
+occurs(hit(Actor, Hand), Timestep) :-
     Timestep = 4,
     Actor = "Bob",
     Hand = 1.
