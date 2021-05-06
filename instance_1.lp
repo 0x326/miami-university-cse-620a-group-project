@@ -102,6 +102,8 @@ holds(split_count(Player, SplitCount), Timestep) :-
     Player = "Bob",
     person_hand(Player, Hand).
 
+% ---------------------------------------------------------
+
 occurs(place_bet(Actor, ChipCount), Timestep) :-
     Timestep = 0,
     Actor = "Bob",
@@ -121,6 +123,17 @@ occurs(deal_card(Actor, Player, Hand), Timestep) :-
 
 occurs(deal_card(Actor, Player, Hand), Timestep) :-
     Timestep = 3,
+    Actor = "Ray",
+    Player = "Ray",
+    Hand = 1.
+
+occurs(stand(Actor, Hand), Timestep) :-
+    Timestep = 4,
+    Actor = "Bob",
+    Hand = 1.
+
+occurs(deal_card(Actor, Player, Hand), Timestep) :-
+    Timestep = 5,
     Actor = "Ray",
     Player = "Ray",
     Hand = 1.
