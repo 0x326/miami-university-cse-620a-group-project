@@ -13,6 +13,10 @@ dealer("Ray").
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % A shuffled deck of cards
+deck_card("queen of spades", 44).
+deck_card("nine of spades", 10).
+deck_card("eight of spades", 50).
+deck_card("jack of spades", 8).
 deck_card("six of hearts", 1).
 deck_card("eight of clubs", 2).
 deck_card("four of diamonds", 3).
@@ -20,9 +24,7 @@ deck_card("three of hearts", 4).
 deck_card("five of clubs", 5).
 deck_card("ten of clubs", 6).
 deck_card("seven of spades", 7).
-deck_card("jack of spades", 8).
 deck_card("five of hearts", 9).
-deck_card("nine of spades", 10).
 deck_card("seven of diamonds", 11).
 deck_card("two of hearts", 12).
 deck_card("jack of diamonds", 13).
@@ -56,13 +58,11 @@ deck_card("two of diamonds", 40).
 deck_card("six of diamonds", 41).
 deck_card("five of spades", 42).
 deck_card("eight of diamonds", 43).
-deck_card("queen of spades", 44).
 deck_card("ace of hearts", 45).
 deck_card("queen of diamonds", 46).
 deck_card("ten of diamonds", 47).
 deck_card("three of diamonds", 48).
 deck_card("six of spades", 49).
-deck_card("eight of spades", 50).
 deck_card("two of spades", 51).
 deck_card("nine of hearts", 52).
 
