@@ -174,8 +174,8 @@ game_result(Result) :-
 % player(Player)
 % dealer(Dealer)
 
-person(X) :- player(X).
-person(X) :- dealer(X).
+person(Player) :- player(Player).
+person(Dealer) :- dealer(Dealer).
 
 % max_chip_count(MaxChipCount)
 % deck_card(Card, Position)
