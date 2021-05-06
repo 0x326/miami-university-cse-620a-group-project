@@ -737,4 +737,6 @@ holds(current_bet(Actor, Hand, NewChipCount), Timestep + 1) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Output predicates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+#show uncertain/1.
 #show holds/2.
+#show occurs/2.
