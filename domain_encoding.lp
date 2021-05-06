@@ -299,7 +299,7 @@ action(end_game(Actor)) :-
 -holds(card_in_hand(OtherPerson, OtherHand, Card), Timestep) :-
     step(Timestep),
     holds(card_in_hand(Person, Hand, Card), Timestep),
-    player(OtherPerson),
+    person(OtherPerson),
     person_hand(OtherPerson, OtherHand),
     OtherPerson != Person.
 
