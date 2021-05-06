@@ -5,6 +5,9 @@
 %   - player(Player)
 %   - dealer(Dealer)
 %
+%   - max_chip_count(MaxChipCount)
+%   - deck_card(Card, Position)
+%
 %   - holds(Fluent, 0)
 %   - -holds(Fluent, 0)
 %   - occurs(Action, Timestep)
