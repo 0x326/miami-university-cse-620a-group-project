@@ -187,6 +187,41 @@ An example of an action is:
 
 \subsubsection{Causal Laws and Executability constraints}
 
+We use $\mathcal{AL}$ causal laws and executability constraints to encode the rules of blackjack in ASP.
+For example, a causal law such as \cref{eq:deal_card_1} denotes that dealing a card to a player causes the next card in the deck to move to the players hand.
+Likewise, \cref{eq:deal_card_2} denotes that this card is no longer available for drawing from the deck.
+Similar $\mathcal{AL}$ rules exist for hitting, splitting, doubling down, etc.
+
+\begin{equation}
+    \label{eq:deal_card_1}
+    deal_card(Actor, Person, Hand) \textbf{ causes } card_in_hand(Person, Hand, Card) \textbf{ if } \\
+        deck_position(Position)
+        deck_card(Card, Position)
+\end{equation}
+\begin{equation}
+    \label{eq:deal_card_2}
+    deal_card(Actor, Person, Hand) \textbf{ causes } deck_position(Position + 1) \textbf{ if } \\
+        deck_position(Position)
+\end{equation}
+
+We also use executability constraints such as \cref{eq:impossible_hit_1,eq:impossible_hit_2,eq:impossible_hit_3} to prevent violations in blackjack rules.
+
+\begin{gather}
+    \label{eq:impossible_hit_1}
+    \textbf{impossible } hit(Actor, Hand) \textbf{ if } has_stayed(Actor, Hand) \\
+    \label{eq:impossible_hit_2}
+    \textbf{impossible } hit(Actor, Hand) \textbf{ if } has_doubled_down(Actor, Hand) \\
+    \label{eq:impossible_hit_3}
+    \textbf{impossible } hit(Actor, Hand) \textbf{ if } bust(Actor, Hand)
+\end{gather}
+
+Finally, we add \cref{eq:no_concurrent_actions} to ensure that only one action occurs at a time.
+
+\begin{gather}
+    \label{eq:no_concurrent_actions}
+    \textbf{impossible } Action_1, Action_2 \textbf{ if } Action_1 \neq Action_2
+\end{gather}
+
 \subsection{Instantiation}
 
 
