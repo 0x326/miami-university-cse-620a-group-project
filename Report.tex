@@ -230,6 +230,21 @@ We can use \texttt{gather} to join multiple equations together
 
 \section{Evaluation}
 
+In our first instance, we make use of a freshly shuffled deck of cards for the positions.
+Then we set up all initial conditions, includingthat there are no cards in any hand,
+setting the chip count of the player, that the player has not split or doubled downed, or stayed.
+Then the player places an intial bet of 10 chips, and three cards are dealt.
+
+What is unique to this first hand is that the player decides to immediately stay with a score of 17.
+However, the dealer gets a score of 18 and the player loses.
+This results in a final output of the game ending with the result of the player losing.
+
+\begin{equation}
+    holds(game_end("Bob",1,lose),10)
+\end{equation}
+
+
+
 \section{Conclusion}
 
 \newpage
