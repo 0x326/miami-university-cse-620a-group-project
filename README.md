@@ -44,5 +44,5 @@ docker run --rm -v "$(pwd):/pwd" --workdir /pwd blang/latex:ctanfull make
 Running clingo:
 
 ```bash
-clingo --opt-mode=optN *.lp *.py | sed 's/) /)\n/g'
+clingo --opt-mode=optN *.lp *.py 1 | sed 's/) /)\n/g'
 ```
