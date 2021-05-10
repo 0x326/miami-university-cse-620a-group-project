@@ -556,6 +556,7 @@ holds(deck_position(Position + 1), Timestep + 1) :-
 holds(card_in_hand(Actor, Hand, Card), Timestep + 1) :-
     step(Timestep),
     occurs(hit(Actor, Hand), Timestep),
+    holds(deck_position(Position), Timestep),
     deck_card(Card, Position).
 
 % hit(Actor, Hand)
